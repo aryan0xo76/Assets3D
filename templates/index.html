@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoxelForge - 3D Model Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/PLYLoader.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <div class="header">
+                <h1>VoxelForge</h1>
+                <p>Text-to-3D Model Generator</p>
+            </div>
+            
+            <div class="form-section">
+                <h2>Generate 3D Model</h2>
+                
+                <div class="input-group">
+                    <label for="prompt">Enter your text prompt:</label>
+                    <textarea id="prompt" 
+                             placeholder="e.g. a medieval sword with ornate handle"
+                             rows="3"></textarea>
+                </div>
+                
+                <!-- Prompt suggestions -->
+                <div class="prompt-suggestions">
+                    <h4>Example Prompts:</h4>
+                    <div class="suggestion-tags">
+                        <span class="tag" onclick="setPrompt('a medieval longsword with ornate crossguard')">Medieval Sword</span>
+                        <span class="tag" onclick="setPrompt('a futuristic sports car with aerodynamic design')">Sci-Fi Car</span>
+                        <span class="tag" onclick="setPrompt('a majestic dragon with detailed scales and wings')">Fantasy Dragon</span>
+                        <span class="tag" onclick="setPrompt('a modern ergonomic office chair')">Office Chair</span>
+                        <span class="tag" onclick="setPrompt('a steampunk mechanical robot')">Steampunk Robot</span>
+                        <span class="tag" onclick="setPrompt('an ancient Greek marble sculpture')">Greek Sculpture</span>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="quality">Quality:</label>
+                    <select id="quality">
+                        <option value="standard">Standard (64 steps)</option>
+                        <option value="high">High Quality (128 steps)</option>
+                    </select>
+                </div>
+                
+                <button id="generateBtn" onclick="startGeneration()">
+                    Generate Model
+                </button>
+                
+                <!-- Progress Section -->
+                <div id="progressSection" class="progress-section" style="display: none;">
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <div id="progressText" class="progress-text">Starting generation...</div>
+                    </div>
+                    <button id="cancelBtn" onclick="cancelGeneration()" class="cancel-btn">
+                        Cancel
+                    </button>
+                </div>
+                
+                <!-- Results Section -->
+                <div id="resultsSection" class="results-section" style="display: none;">
+                    <h3>Generation Complete!</h3>
+                    <div class="download-links">
+                        <a id="downloadPly" href="#" class="download-link">Download PLY</a>
+                        <a id="downloadGlb" href="#" class="download-link">Download GLB</a>
+                        <a id="downloadObj" href="#" class="download-link">Download OBJ</a>
+                    </div>
+                    <button onclick="resetForm()" class="reset-btn">Generate Another</button>
+                </div>
+            </div>
+            
+            <!-- Model Gallery -->
+            <div class="gallery-section">
+                <h3>Recent Models</h3>
+                <div id="modelGallery" class="model-gallery">
+                    <p class="no-models">No models generated yet</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="viewer-header">
+                <h2>3D Model Viewer</h2>
+                <div class="viewer-controls">
+                    <button id="wireframeBtn" onclick="toggleWireframe()">Wireframe</button>
+                    <button onclick="resetCamera()">Reset View</button>
+                    <button onclick="toggleBackground()">Background</button>
+                </div>
+            </div>
+            
+            <div id="viewer-container" class="viewer-container">
+                <div id="viewer-canvas"></div>
+                <div id="viewer-message" class="viewer-message">
+                    <div class="viewer-placeholder">
+                        <div class="placeholder-icon">🎲</div>
+                        <h3>Ready to Generate</h3>
+                        <p>Enter a text prompt and click "Generate Model" to see your 3D creation here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="viewer-info">
+                <div id="modelInfo" class="model-info" style="display: none;">
+                    <span id="vertexCount">Vertices: 0</span> | 
+                    <span id="faceCount">Faces: 0</span> | 
+                    <span id="generationTime">Time: 0s</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading 3D model...</div>
+    </div>
+    
+    <script>
+    function setPrompt(text) {
+        document.getElementById('prompt').value = text;
+    }
+    </script>
+    
+    <script src="{{ url_for('static', filename='viewer.js') }}"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
