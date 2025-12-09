@@ -2,11 +2,11 @@
 
 A Text-to-3D generator that creates assets for scenery and environmental design.
 
-Preview for prompt "a_futuristic_sports"
+Model for prompt "a_futuristic_sports"
 
 ![Preview for prompt "a_futuristic_sports"](sample_images/a_futuristic_sports.png)
 
-Preview for prompt "rusted_broadsword_broken_hilt"
+Model for prompt "rusted_broadsword_broken_hilt"
 
 ![Preview for prompt "rusted_broadsword_broken_hilt"](sample_images/rusted_broadsword_broken_hilt.png)
 
